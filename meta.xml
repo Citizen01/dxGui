@@ -1,0 +1,18 @@
+<meta>
+	<info type="script" name="dxGui" version="1.0" author="Citizen" />
+	
+	<script src="dxThemes.lua" type="client" />
+	<script src="dxShared.lua" type="client" />
+	<script src="dxGui.lua" type="client" />
+
+	<script src="components/dxButton.lua" type="client" />
+
+	<!-- THEMES  -->
+		<file src="themes.xml" />
+		<!-- Default -->
+			<file src="themes/Default/CGUI.png"/>
+			<file src="themes/Default/CGUI.is.xml"/>
+		<!-- /Default -->
+
+	<!-- /THEMES -->
+</meta>
