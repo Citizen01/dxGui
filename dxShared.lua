@@ -22,6 +22,20 @@ _G.table.find = function (t, e)
 	return nil
 end
 
+--[[
+_G.table.delete = function (t, e)
+	if type(t) == "table" and #t > 0 then 
+		for k, i in ipairs(t) do
+			if i == e then
+				local re = table.remove(t, k)
+				return t, re
+			end
+		end
+	end
+	return t, nil
+end
+]] --Something wrong with the table reference I think
+
 function relativeToAbsolute(a, b, parent)
 	local rfw, rfh = screenWidth, screenHeight
 	if isDXElement(parent) then rfw, rfh = dxGetSize(parent) end
@@ -46,7 +60,6 @@ end
 function isPosInElement(dxe, px, py)
 	local x, y = dxGetPosition(dxe)
 	local w, h = dxGetSize(dxe)
-	-- outputChatBox(tostring(mx >= x and mx <= x+w and my >= y and my <= y+h))
 	return px >= x and px <= x+w and py >= y and py <= y+h
 end
 
@@ -57,7 +70,7 @@ function isCursorOver(dxe)
 	return isPosInElement(dxe, mx, my)
 end
 
-function getAllDxElems()
+function getAllDxElements()
 	local elems = {}
 	for k, t in ipairs(dxTypes) do 
 		for k, i in ipairs(getElementsByType(t)) do
@@ -93,10 +106,8 @@ function dxSetPosition(dxe, x, y, rel)
 	else
 		x, y = absoluteToRelative(X, Y, dxGetParent(dxe))
 	end
-	setElementData(dxe, "x", x)
-	setElementData(dxe, "y", y)
-	setElementData(dxe, "X", X)
-	setElementData(dxe, "Y", Y)
+	setElementData(dxe, "x", x); setElementData(dxe, "y", y)
+	setElementData(dxe, "X", X); setElementData(dxe, "Y", Y)
 end
 
 function dxGetSize(dxe, rel)
@@ -114,10 +125,8 @@ function dxSetSize(dxe, w, h, rel)
 	else
 		w, h = absoluteToRelative(W, H, dxGetParent(dxe))
 	end
-	setElementData(dxe, "w", w)
-	setElementData(dxe, "h", h)
-	setElementData(dxe, "W", W)
-	setElementData(dxe, "H", H)
+	setElementData(dxe, "w", w); setElementData(dxe, "h", h)
+	setElementData(dxe, "W", W); setElementData(dxe, "H", H)
 end
 
 function dxSetColor(dxe, r, g, b, a)
@@ -147,3 +156,16 @@ function dxGetText(dxe)
 	return getElementData(dxe, "text") or ""
 end
 
+function isPressed(dxe)
+	return getElementData(dxe, "isPressed")
+end
+
+function dxSetVisible(dxe, bool)
+	if bool == true then
+		setElementData(dxe, "isVisible", bool)
+	end
+end
+
+function dxGetVisible(dxe)
+	return getElementData(dxe, "isVisible")
+end
