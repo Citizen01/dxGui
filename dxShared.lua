@@ -51,8 +51,9 @@ function isPosInElement(dxe, px, py)
 end
 
 function isCursorOver(dxe)
+	if not isCursorShowing() then return false end
 	local mx, my = getCursorPosition()
-	-- outputChatBox(tostring(mx)..", "..tostring(my))
+	mx, my = relativeToAbsolute(mx, my)
 	return isPosInElement(dxe, mx, my)
 end
 
