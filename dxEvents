@@ -1,0 +1,6 @@
+
+addEvent("onClientDXClick")
+function onClientDXClick()
+	
+end
+addEventHandler("onClientClick", root, onClientDXClick)

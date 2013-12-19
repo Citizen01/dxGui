@@ -3,6 +3,7 @@
 	
 	<script src="dxThemes.lua" type="client" />
 	<script src="dxShared.lua" type="client" />
+	<script src="dxEvents.lua" type="client" />
 	<script src="dxGui.lua" type="client" />
 
 	<script src="components/dxButton.lua" type="client" />
