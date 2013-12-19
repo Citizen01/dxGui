@@ -9,33 +9,23 @@ function dxCreateButton(x, y, w, h, txt, relative, parent)
 		return
 	end
 	if not txt then txt = "" end
-	if relative == nil then relative = false end
+	if relative ~= true then relative = false end
 
 	local dxe = createElement("dxButton")
-	setElementData(dxe, "x", x)
-	setElementData(dxe, "y", y)
-	setElementData(dxe, "w", w)
-	setElementData(dxe, "h", h)
-	setElementData(dxe, "text", txt)
+	dxSetPosition(dxe, x, y, relative)
+	dxSetSize(dxe, w, h, relative)
+	dxSetText(dxe, txt)
 	setElementData(dxe, "relative", relative)
-	if parent then 
-		setElementData(dxe, "parent", parent)
-		setElementParent(dxe, parent)
-	end
+	if parent then dxSetParent(dxe, "parent", parent) end
+
 	setElementData(dxe, "renderer", "renderButton")
 end
 
 function renderButton(dxe)
 	local t = dxThemes[getElementData(localPlayer, "dxTheme") or "Default"]
-	local x, y = getElementData(dxe, "x", x), getElementData(dxe, "y", y)
-	local w, h = getElementData(dxe, "w", w), getElementData(dxe, "h", h)
-	local relative = getElementData(dxe, "relative")
+	local x, y = dxGetPosition(dxe)
+	local w, h = dxGetSize(dxe)
 	local parent = getElementData(dxe, "parent")
-
-	if relative and not parent then
-		x, y = relativeToAbsolute(x, y)
-		w, h = relativeToAbsolute(w, h)
-	end
 
 	local topLeft, topRight = t.Frame2TopLeft, t.Frame2TopRight
 	local bottomLeft, bottomRight = t.Frame2BottomLeft, t.Frame2BottomRight
@@ -43,8 +33,9 @@ function renderButton(dxe)
 	local sideTop, sideBottom = t.Frame2Top, t.Frame2Bottom
 	local bckgrnd = t.Frame2Background
 
-	local color = tocolor(255, 255, 255) -- mouse over
-	color = tocolor(80, 80, 80) -- mouse out
+	local color = tocolor(100, 100, 100) -- mouse out
+
+	if isCursorOver(dxe) then color = tocolor(255, 255, 255) end
 	
 	-- outputChatBox("("..x..", "..y..", "..topLeft.w..", "..topLeft.h..", "..topLeft.x..", "..topLeft.y..", "..topLeft.w..", "..topLeft.h..", "..t.img..")")
 	
@@ -70,6 +61,10 @@ function renderButton(dxe)
 
 	-- background
 	dxDrawImageSection(x+topLeft.w, y+topLeft.h, w-topLeft.w-topRight.h, h-topRight.h-bottomRight.h, bckgrnd.x, bckgrnd.y, bckgrnd.w, bckgrnd.h, t.img, 0, 0, 0, color)
+
+	-- text
+	local text = dxGetText(dxe, "text") or ""
+	dxDrawText(text, x+sideLeft.w, y+sideTop.h, x+w-sideRight.w, y+h-sideBottom.h, color, 1, "default", "center", "center", true )
 end
 
 
@@ -77,6 +72,7 @@ end
 
 addEventHandler("onClientResourceStart", resourceRoot,
 function ()
-	dxCreateButton(0.5, 0.5, 0.1, 0.1, "", true)
-	guiCreateButton(0.6, 0.5, 0.1, 0.1, "", true)
+	dxCreateButton(0.5, 0.5, 0.1, 0.1, "test", true)
+	guiCreateButton(0.6, 0.5, 0.1, 0.1, "test", true)
+	showCursor(true)
 end)
