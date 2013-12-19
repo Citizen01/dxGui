@@ -23,6 +23,7 @@ function dxCreateButton(x, y, w, h, txt, relative, parent)
 	end
 
 	setElementData(dxe, "renderer", "renderButton")
+	return dxe
 end
 
 function renderButton(dxe)
@@ -74,7 +75,7 @@ function renderButton(dxe)
 
 	-- text
 	local text = dxGetText(dxe, "text") or ""
-	dxDrawText(text, x+sideLeft.w, y+sideTop.h, x+w-sideRight.w, y+h-sideBottom.h, txtcolor, 1, "default", "center", "center", true )
+	dxDrawText(text, x-1, y, x+w+1, y+h, txtcolor, 1, "default", "center", "center", true, true, false, false, true )
 end
 
 
@@ -82,7 +83,7 @@ end
 
 addEventHandler("onClientResourceStart", resourceRoot,
 function ()
-	dxCreateButton(0.5, 0.5, 0.1, 0.1, "test", true)
-	guiCreateButton(0.6, 0.5, 0.1, 0.1, "test", true)
+	local dxBtn = dxCreateButton(0.5, 0.5, 0.1, 0.1, "test", true)
+	local guiBtn = guiCreateButton(0.6, 0.5, 0.1, 0.1, "test", true)
 	showCursor(true)
 end)
